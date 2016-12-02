@@ -1,0 +1,20 @@
+enum e_card_type
+{
+	e_card_0		= 0x00000; //不出
+	e_card_1 		= 0x10105; //单张或顺子
+	e_card_2 		= 0x20103; //对子或连对或王炸
+	e_card_3 		= 0x30102; //三张或飞机
+	e_card_3_1		= 0x31112; //三带一, 或飞机带翅膀
+	e_card_3_2		= 0x32112; //三带一对或飞机带翅膀
+	e_card_4		= 0x40100; //炸弹
+	e_card_4_1		= 0x41110; //四带一
+	e_card_4_2_1	= 0x41120; //四带二
+	e_card_4_2_2	= 0x42120; //四带二对
+}
+
+message classicddz_cards
+{
+	required e_card_type e_type = 1;
+	required bytes cards = 2;
+	required bytes desc = 3;
+}

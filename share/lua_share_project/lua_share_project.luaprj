@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<Project Name="lua_share_project.luaprj" >
+    <Filter Name="proto_lua" Directory=".\..\proto_lua" >
+        <LuaFile RelativePath=".\..\proto_lua\cardtype_pb.lua" />
+        <LuaFile RelativePath=".\..\proto_lua\chat_pb.lua" />
+        <LuaFile RelativePath=".\..\proto_lua\classicddz_pb.lua" />
+        <LuaFile RelativePath=".\..\proto_lua\login_pb.lua" />
+        <LuaFile RelativePath=".\..\proto_lua\pvp_pb.lua" />
+    </Filter>
+    <Filter Name="rule_lua" Directory=".\..\rule_lua" >
+        <LuaFile RelativePath=".\..\rule_lua\classicddz.lua" />
+    </Filter>
+    <Filter Name="proto" Directory=".\..\proto" >
+        <LuaFile RelativePath=".\..\proto\chat.proto" />
+        <LuaFile RelativePath=".\..\proto\classicddz.proto" />
+        <LuaFile RelativePath=".\..\proto\login.proto" />
+        <LuaFile RelativePath=".\..\proto\pvp.proto" />
+    </Filter>
+    <Filter Name="protobuf" Directory=".\..\protobuf" >
+        <LuaFile RelativePath=".\..\protobuf\containers.lua" />
+        <LuaFile RelativePath=".\..\protobuf\decoder.lua" />
+        <LuaFile RelativePath=".\..\protobuf\descriptor.lua" />
+        <LuaFile RelativePath=".\..\protobuf\encoder.lua" />
+        <LuaFile RelativePath=".\..\protobuf\listener.lua" />
+        <LuaFile RelativePath=".\..\protobuf\protobuf.lua" />
+        <LuaFile RelativePath=".\..\protobuf\text_format.lua" />
+        <LuaFile RelativePath=".\..\protobuf\type_checkers.lua" />
+        <LuaFile RelativePath=".\..\protobuf\wire_format.lua" />
+    </Filter>
+</Project>

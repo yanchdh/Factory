@@ -1,0 +1,17 @@
+enum e_chat_msgid
+{
+	request_send_content = 10001;
+	response_send_content = 10002;
+}
+
+message msg_request_send_content
+{
+	required string toid = 1;
+	required string content = 2;
+}
+
+message msg_response_send_content
+{
+	required string fromid = 1;
+	required string content = 2;
+}

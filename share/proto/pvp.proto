@@ -1,0 +1,74 @@
+import "classicddz.proto";
+
+enum e_pvp_msgid
+{
+	request_start = 20001;
+	response_start = 20002;
+	response_start_call = 20011;
+	request_call = 20012;
+	response_call = 20013;
+	response_start_discard = 20021;
+	request_discard = 20022;
+	response_discard = 20023;
+}
+
+message msg_request_start
+{
+	required int64 uid = 1;
+}
+
+message pvp_player_info
+{
+	required int64 uid = 1;
+}
+
+message msg_response_start
+{
+	required int64 roomid = 1;
+	repeated pvp_player_info players_info = 2;
+	required int32 dz_info = 3;
+	required int32 stance = 4;
+	required bytes cards = 5;
+}
+
+message msg_response_start_call
+{
+	required int32 stance = 1;
+}
+
+message msg_request_call
+{
+	required int32 stance = 1;
+	required int32 score = 2;
+}
+
+message msg_response_call
+{
+	required int32 stance = 1;
+	required int32 score = 2;
+	required bytes call_cards = 3;
+}
+
+message msg_response_start_discard
+{
+	required int32 stance = 1;
+}
+
+message card_info
+{
+	required e_card_type card_type = 1;
+	required bytes cards1 = 2;
+	required bytes cards2 = 3;
+}
+
+message msg_request_discard
+{
+	required int32 stance = 1;
+	optional card_info cardinfo = 2;
+}
+
+message msg_response_discard
+{
+	required int32 stance = 1;
+	required int32 err = 2;
+}

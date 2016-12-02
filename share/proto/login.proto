@@ -1,0 +1,16 @@
+enum e_login_msgid
+{
+	request_enter_game = 10001;
+	response_enter_game = 10002;
+}
+
+message msg_request_enter_game
+{
+	required string username = 1;
+}
+
+message msg_response_enter_game
+{
+	required int32  errno = 1;
+	required string username = 2;
+}
