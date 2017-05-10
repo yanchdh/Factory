@@ -1,11 +1,14 @@
 #ifdef _WIN32
 #include <WinSock2.h>
 #else
-
+#include <arpa/inet.h>
 #endif /* _WIN32 */
 #include "ClientNet.h"
 #include <memory>
 #include <assert.h>
+#include "io_event.h"
+#include "MessageDispatch.h"
+#include <string.h>
 
 void std_read_cb(struct bufferevent *bev, void *arg)
 {
@@ -19,98 +22,94 @@ void std_read_cb(struct bufferevent *bev, void *arg)
 	//pSocketData->pEventNet->StdRecvMsg(NULL, data, n);
 }
 
-ClientNet::ClientNet(event_base* evbase, const char* ip, int port)
-	: EventNet(evbase)
-	, m_conn_ip(ip)
-	, m_conn_port(port)
-	, m_conn_fd(-1)
-	, m_bev(NULL)
-	, m_ev(NULL)
+ClientNet::ClientNet(io_event* netio, const char* ip, int port, MessageDispatch* dispatch)
+	: m_netio(netio)
+	, m_dispatch(dispatch)
+	, m_ip(ip)
+	, m_port(port)
+	, m_pEv(NULL)
+	, m_pEvBase(netio->get_evbase())
+	, m_pConn(NULL)
 {
 }
 
 ClientNet::~ClientNet()
 {
-	if (m_bev) 
+	if (m_pEv)
 	{
-		bufferevent_free(m_bev);
-		m_bev = NULL;
+		event_free(m_pEv);
+		m_pEv = NULL;
 	}
-	if (m_ev)
+	if (m_pConn)
 	{
-		event_free(m_ev);
-		m_ev = NULL;
-	}
-}
-
-void ClientNet::OnRecvMsg(bufferevent *bev, std::shared_ptr<char> pdata, int len)
-{
-	char* data = (char*)pdata.get();
-	uint32_t iMsgId = ntohl(*(uint32_t*)data);
-}
-
-void ClientNet::Close()
-{
-	if (m_bev) 
-	{
-		bufferevent_free(m_bev);
-		m_bev = NULL;
+		OnClose(m_pConn->GetFd());
 	}
 }
 
-void ClientNet::AddTimer(event* _ev)
+void ClientNet::Close(int fd)
+{	
+	if (m_pConn)
+	{
+		m_pConn->Close();
+		m_pConn.reset();
+	}
+}
+
+void ClientNet::OnClose(int fd)
 {
-	if (!_ev)
+	if (m_pConn)
+	{
+		m_pConn.reset();
+		m_dispatch->OnConnectionClose(fd);
+	}
+}
+
+void ClientNet::AddTimer(event* pEv)
+{
+	if (!pEv)
 	{
 		return;
 	}
-	if (m_ev)
+	if (m_pEv)
 	{
-		event_free(m_ev);
-		m_ev = NULL;
+		event_free(m_pEv);
+		m_pEv = NULL;
 	}
-	m_ev = _ev;
-	timeval tv = { 1, 0 };
-	event_add(m_ev, &tv);
+	m_pEv = pEv;
+	timeval tv = { 0, 300 * 1000 };
+	event_add(m_pEv, &tv);
 }
 
 bool ClientNet::Connect()
 {
-	bufferevent* bev = bufferevent_socket_new(GetEventBase(), -1, BEV_OPT_CLOSE_ON_FREE);
+	bufferevent* bev = bufferevent_socket_new(GetEvBase(), -1, BEV_OPT_CLOSE_ON_FREE);
 	struct sockaddr_in addr;
 	memset(&addr, 0x00, sizeof(addr));
 	addr.sin_family = AF_INET;
-	addr.sin_port = htons(m_conn_port);
-	addr.sin_addr.s_addr = inet_addr(m_conn_ip.c_str());
+	addr.sin_port = htons(m_port);
+	addr.sin_addr.s_addr = inet_addr(m_ip.c_str());
 
 	if ((bufferevent_socket_connect(bev, (sockaddr*)&addr, sizeof(addr))) < 0)
 	{
-		fprintf(stdout, "Connect %s:%d Fail[bufferevent_socket_connect()]\n", m_conn_ip.c_str(), m_conn_port);
+		fprintf(stdout, "Connect %s:%d Fail[bufferevent_socket_connect()]\n", m_ip.c_str(), m_port);
 		return false;
 	}
 
-	bufferevent_setcb(bev, EventNet::ReadCallBack, NULL, 
+	bufferevent_setcb(bev, Connection<ClientNet>::Read, NULL,
 		[](bufferevent* bev, short event, void *arg) //bufferevent_event_cb
 		{
 			int fd = bufferevent_getfd(bev);
-			ClientNet* pcn = (ClientNet*)arg;
+			ClientNet* pClientNet = (ClientNet*)arg;
 			if (event & BEV_EVENT_CONNECTED)
 			{
-				fprintf(stdout, "Connect Success[%d]!\n", fd);
-				pcn->OnConnectSuccess(bev);
+				connection_ptr pConn(new connection(pClientNet->GetEvBase(), bev));
+				pClientNet->ConnectSuccess(pConn);
 			}
 			else
 			{
-				fprintf(stderr, "Connect Fail[%d]\n", fd);
-				pcn->OnConnectFail(bev);
-				pcn->AddTimer(evtimer_new(pcn->GetEventBase(),
-					[](evutil_socket_t fd, short events, void* arg) //Reconnect
-					{
-						ClientNet* pcn = (ClientNet*)arg;
-						fprintf(stdout, "Reconnect %s:%d\n", pcn->m_conn_ip.c_str(), pcn->m_conn_port);
-						pcn->Connect();
-					}
-				, pcn));
+				pClientNet->OnClose(fd);
+				pClientNet->ReConnect();
+				bufferevent_free(bev);
 			}
 		}
 	, this);
@@ -118,26 +117,27 @@ bool ClientNet::Connect()
 	return 0;
 }
 
-void ClientNet::OnClose(bufferevent *bev)
+void ClientNet::ReConnect()
 {
-	if (m_bev && bev == m_bev)
+	AddTimer(evtimer_new(GetEvBase(),
+		[](evutil_socket_t fd, short events, void* arg)
 	{
-		bufferevent_free(m_bev);
-		m_bev = NULL;
-		m_conn_fd = -1;
+		ClientNet* pClientNet = static_cast<ClientNet*>(arg);
+		fprintf(stdout, "Reconnect %s:%d\n", pClientNet->m_ip.c_str(), pClientNet->m_port);
+		pClientNet->Connect();
 	}
+	, this));
 }
 
-void ClientNet::OnConnectSuccess(bufferevent* bev)
+void ClientNet::Read(int fd, int msgid, std::shared_ptr<char> pdata, int len)
 {
-	m_bev = bev;
-	m_conn_fd = bufferevent_getfd(bev);
-	SendMsg(bev, sizeof("hello world"), "hello world");
+	m_dispatch->OnConnectionRead(fd, msgid, pdata, len);
 }
 
-void ClientNet::OnConnectFail(bufferevent* bev)
+void ClientNet::ConnectSuccess(connection_ptr pConn)
 {
-	bufferevent_free(bev);
-	m_bev = NULL;
-	m_conn_fd = -1;
+	int fd = pConn->GetFd();
+	m_pConn = pConn;
+	fprintf(stdout, "ConnectSuccess %s:%d\n", m_ip.c_str(), m_port);
+	m_dispatch->OnConnectionSuccess(fd);
 }

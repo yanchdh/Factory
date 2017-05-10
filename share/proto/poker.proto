@@ -1,0 +1,10 @@
+enum e_table_type
+{
+	e_classic_doudizhu = 1;
+}
+
+message card_info
+{
+	required int32 card_type = 1;
+	required bytes data = 2;
+}

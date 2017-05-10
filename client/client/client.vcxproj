@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BA43E360-0EC6-47C9-A350-8ECB8719F49F}</ProjectGuid>
+    <RootNamespace>client</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>..\..\client\src;..\..\event-net\src;..\..\io-event\src;..\..\share\proto-cpp;..\..\third-src\libevent-2.0.22-win;..\..\poker-logic\src;..\..\third-src\protobuf-2.5.0-win;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\third-lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>ws2_32.lib;wsock32.lib;libevent.lib;libevent_core.lib;libevent_extras.lib;libprotobuf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\event-net\src\ClientNet.cpp" />
+    <ClCompile Include="..\..\event-net\src\ServerNet.cpp" />
+    <ClCompile Include="..\..\io-event\src\io_event.cpp" />
+    <ClCompile Include="..\..\poker-logic\src\ClassicDouDiZhu\client\CardTable.cpp" />
+    <ClCompile Include="..\..\poker-logic\src\ClassicDouDiZhu\client\Logic.cpp" />
+    <ClCompile Include="..\..\share\proto-cpp\chat.pb.cc" />
+    <ClCompile Include="..\..\share\proto-cpp\classicddz.pb.cc" />
+    <ClCompile Include="..\..\share\proto-cpp\login.pb.cc" />
+    <ClCompile Include="..\..\share\proto-cpp\poker.pb.cc" />
+    <ClCompile Include="..\src\ClientLogic.cpp" />
+    <ClCompile Include="..\src\ClientMessageDispatch.cpp" />
+    <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="..\src\Player.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\event-net\src\ClientNet.h" />
+    <ClInclude Include="..\..\event-net\src\Connection.h" />
+    <ClInclude Include="..\..\event-net\src\MessageDispatch.h" />
+    <ClInclude Include="..\..\event-net\src\MsgHeader.h" />
+    <ClInclude Include="..\..\event-net\src\ServerNet.h" />
+    <ClInclude Include="..\..\io-event\src\io_event.h" />
+    <ClInclude Include="..\..\io-event\src\slist.h" />
+    <ClInclude Include="..\..\poker-logic\src\ClassicDouDiZhu\Rule.h" />
+    <ClInclude Include="..\..\poker-logic\src\ClassicDouDiZhu\client\CardTable.h" />
+    <ClInclude Include="..\..\poker-logic\src\ClassicDouDiZhu\client\CardTableInfo.h" />
+    <ClInclude Include="..\..\poker-logic\src\ClassicDouDiZhu\client\Logic.h" />
+    <ClInclude Include="..\..\poker-logic\src\ClassicDouDiZhu\client\PlayerInfo.h" />
+    <ClInclude Include="..\..\poker-logic\src\ClassicDouDiZhu\Numerical.h" />
+    <ClInclude Include="..\..\share\proto-cpp\chat.pb.h" />
+    <ClInclude Include="..\..\share\proto-cpp\classicddz.pb.h" />
+    <ClInclude Include="..\..\share\proto-cpp\login.pb.h" />
+    <ClInclude Include="..\..\share\proto-cpp\poker.pb.h" />
+    <ClInclude Include="..\src\ClientLogic.h" />
+    <ClInclude Include="..\src\ClientMessageDispatch.h" />
+    <ClInclude Include="..\src\Global.h" />
+    <ClInclude Include="..\src\Player.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

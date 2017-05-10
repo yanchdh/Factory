@@ -6,11 +6,11 @@ enum e_login_msgid
 
 message msg_request_enter_game
 {
-	required string username = 1;
+	required int64 uid = 1;
 }
 
 message msg_response_enter_game
 {
-	required int32  errno = 1;
-	required string username = 2;
+	required int32 err = 1;
+	required int64 uid = 2;
 }
