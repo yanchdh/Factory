@@ -1,4 +1,5 @@
 #include "ForbiddenWords.h"
+#include <time.h>
 
 ForbiddenWords::ForbiddenWords()
 {
@@ -10,6 +11,7 @@ ForbiddenWords::ForbiddenWords()
 
 void ForbiddenWords::Init(const std::string& respath)
 {
+	time_t t1 = time(NULL);
 	std::ifstream fin(respath.c_str());
 	std::string str;
 	int id = 0;
@@ -18,7 +20,7 @@ void ForbiddenWords::Init(const std::string& respath)
 		while (getline(fin, str))
 		{
 			TrimStr(str);
-			if (!str.empty())
+			if (!str.empty() && str.size() <= 31)
 			{
 				Insert(str, id++);
 				str.clear();
@@ -27,6 +29,8 @@ void ForbiddenWords::Init(const std::string& respath)
 	}
 	InitFail(); //³õÊ¼»¯m_failÖ¸Õë
 	fin.close();
+	time_t t2 = time(NULL);
+	fprintf(stdout, "ForbiddenWords::Init() -> cost time: %lds\n", t2 - t1);
 }
 
 bool ForbiddenWords::IsStrLegal(const std::string& str)
@@ -62,8 +66,11 @@ bool ForbiddenWords::HasPunctuation(const std::string& str)
 			{
 				return true;
 			}
-			i++;
-			continue;
+			else
+			{
+				i++;
+				continue;
+			}
 		}
 		int sz = GetUtf8Size((unsigned char)(str[i]));
 		if (sz < 2 || sz > 6 || strsize - i < sz)
