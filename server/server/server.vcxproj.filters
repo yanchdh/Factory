@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="源文件\server">
+      <UniqueIdentifier>{762cd8a9-2f7d-4b5b-b73c-6bd8af03a121}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\io-event">
+      <UniqueIdentifier>{1ca0f731-f3cd-48c8-af48-7648b8d5b73b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\proto-cpp">
+      <UniqueIdentifier>{d772645a-8cfa-410e-8e99-2a24f0615956}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\event-net">
+      <UniqueIdentifier>{393843b6-40d9-423d-864d-d3195ea6a9b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\poker-logic">
+      <UniqueIdentifier>{1eb0202d-bc16-4e07-9f47-ee6fdff8e956}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\poker-logic\ClassicDouDiZhu">
+      <UniqueIdentifier>{0abd2baa-42fd-4fc0-a0d3-57ca1c647695}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\poker-logic\ClassicDouDiZhu\server">
+      <UniqueIdentifier>{0ffd80e0-a325-496b-b821-2d50564fbe8e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\Global.h">
+      <Filter>源文件\server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ServerLogic.h">
+      <Filter>源文件\server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ServerMessageDispatch.h">
+      <Filter>源文件\server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\io-event\src\io_event.h">
+      <Filter>源文件\io-event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\io-event\src\slist.h">
+      <Filter>源文件\io-event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\event-net\src\ClientNet.h">
+      <Filter>源文件\event-net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\event-net\src\Connection.h">
+      <Filter>源文件\event-net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\event-net\src\MessageDispatch.h">
+      <Filter>源文件\event-net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\event-net\src\MsgHeader.h">
+      <Filter>源文件\event-net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\event-net\src\ServerNet.h">
+      <Filter>源文件\event-net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\share\proto-cpp\chat.pb.h">
+      <Filter>源文件\proto-cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\share\proto-cpp\classicddz.pb.h">
+      <Filter>源文件\proto-cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\share\proto-cpp\login.pb.h">
+      <Filter>源文件\proto-cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\share\proto-cpp\poker.pb.h">
+      <Filter>源文件\proto-cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Player.h">
+      <Filter>源文件\server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\poker-logic\src\ClassicDouDiZhu\CardTableInfo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\poker-logic\src\ClassicDouDiZhu\server\CardTable.h">
+      <Filter>源文件\poker-logic\ClassicDouDiZhu\server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\poker-logic\src\ClassicDouDiZhu\server\CardTableInfo.h">
+      <Filter>源文件\poker-logic\ClassicDouDiZhu\server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\poker-logic\src\ClassicDouDiZhu\server\Logic.h">
+      <Filter>源文件\poker-logic\ClassicDouDiZhu\server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\poker-logic\src\ClassicDouDiZhu\server\PlayerInfo.h">
+      <Filter>源文件\poker-logic\ClassicDouDiZhu\server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\poker-logic\src\ClassicDouDiZhu\server\Shuffle.h">
+      <Filter>源文件\poker-logic\ClassicDouDiZhu\server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\poker-logic\src\ClassicDouDiZhu\Numerical.h">
+      <Filter>源文件\poker-logic\ClassicDouDiZhu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\poker-logic\src\ClassicDouDiZhu\Rule.h">
+      <Filter>源文件\poker-logic\ClassicDouDiZhu</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\main.cpp">
+      <Filter>源文件\server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ServerLogic.cpp">
+      <Filter>源文件\server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ServerMessageDispatch.cpp">
+      <Filter>源文件\server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\io-event\src\io_event.cpp">
+      <Filter>源文件\io-event</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\event-net\src\ClientNet.cpp">
+      <Filter>源文件\event-net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\event-net\src\ServerNet.cpp">
+      <Filter>源文件\event-net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\share\proto-cpp\chat.pb.cc">
+      <Filter>源文件\proto-cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\share\proto-cpp\classicddz.pb.cc">
+      <Filter>源文件\proto-cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\share\proto-cpp\login.pb.cc">
+      <Filter>源文件\proto-cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\share\proto-cpp\poker.pb.cc">
+      <Filter>源文件\proto-cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Player.cpp">
+      <Filter>源文件\server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\poker-logic\src\ClassicDouDiZhu\server\CardTable.cpp">
+      <Filter>源文件\poker-logic\ClassicDouDiZhu\server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\poker-logic\src\ClassicDouDiZhu\server\Logic.cpp">
+      <Filter>源文件\poker-logic\ClassicDouDiZhu\server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\poker-logic\src\ClassicDouDiZhu\server\Shuffle.cpp">
+      <Filter>源文件\poker-logic\ClassicDouDiZhu\server</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

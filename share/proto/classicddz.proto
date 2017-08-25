@@ -1,4 +1,6 @@
-enum e_card_type
+import "poker.proto";
+
+enum e_classic_doudizhu_card_type
 {
 	e_card_0		= 0x00000; //不出
 	e_card_1 		= 0x10105; //单张或顺子
@@ -12,9 +14,79 @@ enum e_card_type
 	e_card_4_2_2	= 0x42120; //四带二对
 }
 
-message classicddz_cards
+enum e_classicddz_msgid
 {
-	required e_card_type e_type = 1;
-	required bytes cards = 2;
-	required bytes desc = 3;
+	request_classicddz_start = 20001;
+	response_classicddz_start = 20002;
+	request_classicddz_call = 20012;
+	response_classicddz_call = 20013;
+	response_classicddz_start_discard = 20021;
+	request_classicddz_discard = 20022;
+	response_classicddz_discard = 20023;
+	response_classicddz_end = 20024;
+}
+
+message msg_request_classicddz_start
+{
+	required int64 uid = 1;
+}
+
+message classicddz_player_info
+{
+	required int64 uid = 1;
+	required int32 seat = 2;
+}
+
+message classicddz_dizhu_info
+{
+	required int32 seat = 1;
+	required int32 pos = 2;
+	required int32 cardId = 3;
+}
+
+message msg_response_classicddz_start
+{
+	required int64 tableId = 1;
+	repeated classicddz_player_info playerInfo = 2;
+	required classicddz_dizhu_info dizhuInfo = 3;
+	required bytes data = 4;
+}
+
+message msg_request_classicddz_call
+{
+	required int64 tableId = 1;
+	required int32 seat = 2;
+	required int32 score = 3;
+}
+
+message msg_response_classicddz_call
+{
+	required int32 seat = 1;
+	required int32 score = 2;
+	optional int32 callSeat = 3;
+}
+
+message msg_response_classicddz_start_discard
+{
+	required int32 seat = 1;
+	required int32 score = 2;
+	required bytes data = 3;
+}
+
+message msg_request_classicddz_discard
+{
+	required int64 tableId = 1;
+	required int32 seat = 2;
+	required card_info cardInfo = 3;
+}
+
+message msg_response_classicddz_discard
+{
+	required int32 seat = 1;
+	required card_info cardInfo = 2;
+}
+
+message msg_response_classicddz_end
+{
+	required bool isDiZhuWin = 1;
 }
